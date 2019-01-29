@@ -1,2 +1,0 @@
-# AngularReduxSeedling
-Created with CodeSandbox

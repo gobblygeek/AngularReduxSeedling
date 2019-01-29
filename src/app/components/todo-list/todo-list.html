@@ -1,0 +1,81 @@
+<h3>Create Todo:</h3>
+<form (ngSubmit)="onSubmit()" #todoForm="ngForm">
+  <div class="form-row">
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Description"
+        id="description"
+        [(ngModel)]="model.description"
+        name="description"
+      /><input
+        type="text"
+        class="form-control"
+        placeholder="Responsible"
+        id="responsible"
+        [(ngModel)]="model.responsible"
+        name="responsible"
+      />
+      <div class="col-auto">
+        <select
+          class="form-control"
+          id="priority"
+          name="priority"
+          [(ngModel)]="model.priority"
+          #priority="ngModel"
+        >
+          <option (value)="low">Low</option>
+          <option (value)="medium">Medium</option>
+          <option (value)="high">High</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+</form>
+<h3>Todo List:</h3>
+<div *ngIf="(todos | async).length !== 0">
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Com</th>
+        <th>#</th>
+        <th>Description</th>
+        <th>Responsible</th>
+        <th>Priority</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of todos | async">
+        <td>
+          <span
+            class="badge"
+            (click)="toggleTodo(t)"
+            [ngClass]="{'badge-success':t.isCompleted,'badge-danger':!t.isCompleted}"
+          >
+            {{t.isCompleted ? 'Y': 'N'}}
+          </span>
+          {{t.id}}
+        </td>
+        <td>{{t.description}}</td>
+        <td>{{t.responsible}}</td>
+        <td>
+          <span
+            class="badge"
+            [ngClass]="{'badge-success':t.priority == 'low','badge-warning':t.priority == 'medium','badge-danger':t.priority == 'high'}"
+            >{{t.priority | uppercase}}</span
+          >
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="removeTodo(t)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
